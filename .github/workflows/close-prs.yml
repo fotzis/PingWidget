@@ -1,0 +1,16 @@
+name: Close PRs Automatically
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+jobs:
+  close-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Close PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr close ${{ github.event.pull_request.number }} -R ${{ github.repository }} --comment "Thank you for your interest! However, I do not accept pull requests on this repository."
